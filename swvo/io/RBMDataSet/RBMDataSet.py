@@ -115,7 +115,8 @@ class RBMDataSet:
         if isinstance(instrument, str):
             instrument = InstrumentEnum[instrument.upper()]
         self._instrument = instrument
-        if isinstance(mfm, str):
+
+        if mfm.upper() in MfmEnum.__members__:
             mfm = MfmEnum[mfm.upper()]
         self._mfm = mfm
 

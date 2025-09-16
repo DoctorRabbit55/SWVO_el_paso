@@ -12,7 +12,9 @@ from swvo.io.RBMDataSet.custom_enums import (
     SatelliteLike as SatelliteLike,
     SatelliteEnum as SatelliteEnum,
     InstrumentEnum as InstrumentEnum,
+    InstrumentLike as InstrumentLike,
     MfmEnum as MfmEnum,
+    MfmLike as MfmLike,
     ElPasoMFMEnum as ElPasoMFMEnum,
     SatelliteLiteral as SatelliteLiteral,
 )
