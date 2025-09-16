@@ -34,26 +34,28 @@ def get_file_path_any_format(folder_path: Path, file_stem: str, preferred_ext: s
 
     if len(all_files) >= 1:
         extensions_found = [file.suffix[1:] for file in all_files]
-        if preferred_ext in extensions_found:
-            if len(all_files) > 1:
-                warnings.warn(
-                    (
-                        f"Several files found for {folder_path / (file_stem + '.*')} with extensions: {extensions_found}. "
-                        f"Choosing: {preferred_ext}."
-                    ),
-                    stacklevel=2,
-                )
-
-                return folder_path / (file_stem + "." + preferred_ext)
-            return all_files[0]
-        else:
+        if len(all_files) > 1:
             warnings.warn(
-                f"File not found: {folder_path / (file_stem + '.' + preferred_ext)}",
+                (
+                    f"Several files found for {folder_path / (file_stem + '.*')} with extensions: {extensions_found}. "
+                    f"Choosing: {preferred_ext}."
+                ),
                 stacklevel=2,
             )
-            return None
+
+            return folder_path / (file_stem + "." + preferred_ext)
+
+        if len(all_files) == 1:
+            return all_files[0]
+
+        warnings.warn(
+            f"File not found: {folder_path / (file_stem + '.' + preferred_ext)}",
+            stacklevel=2,
+        )
 
     return None
+
+
 
 
 def load_file_any_format(file_path: Path) -> dict[str, Any]:

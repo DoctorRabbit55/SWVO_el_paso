@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Literal, TypeAlias
 
 ####
@@ -27,8 +27,8 @@ class FileCadenceEnum(Enum):
 @dataclass(frozen=True)
 class Variable:
     var_name: str
-    data_server_file_prefix: str
-    data_server_has_B: bool
+    mat_file_prefix: str
+    mat_has_B: bool
 
 
 without_B: bool = False
@@ -140,6 +140,7 @@ class InstrumentEnum(Enum):
     HOPE = "hope"
     MAGEIS = "mageis"
     REPT = "rept"
+    ECT_COMBINED = "ect_combined"
 
     # GOES
     MAGEDandEPEAD = "MAGEDandEPEAD"
@@ -156,10 +157,30 @@ class InstrumentEnum(Enum):
     # POES
     TED = "TED-electron"
 
+InstrumentLiteral = Literal[
+    "hope",
+    "mageis",
+    "rept",
+    "ect_combined",
+    "MAGEDandEPEAD",
+    "MAGED",
+    "XEP",
+    "mepe",
+    "PWE-density",
+    "orbit",
+    "TED-electron",
+]
+InstrumentLike: TypeAlias = InstrumentLiteral | InstrumentEnum
 
-class MfmEnum(Enum):
+class MfmEnum(StrEnum):
     T89 = "n4_4_T89"
     T04s = "n4_4_T04s"
+    T96 = "n4_4_T96"
+    TS04 = "n4_4_T04s"
+    OP77 = "n4_4_OP77"
+
+MfmEnumLiteral = Literal["T89", "T04s", "TS04", "T96", "OP77"]
+MfmLike: TypeAlias = MfmEnumLiteral | MfmEnum
 
 
 class ElPasoMFMEnum(Enum):
