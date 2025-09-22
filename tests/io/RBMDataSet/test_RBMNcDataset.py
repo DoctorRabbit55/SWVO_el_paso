@@ -26,32 +26,32 @@ def mock_module_string():
 
 
 @pytest.fixture
-def mock_dataset() -> RBMNcDataSet:
+def mock_dataset(mocker) -> RBMNcDataSet:
     start_time = dt.datetime(2023, 1, 1, tzinfo=timezone.utc)
     end_time = dt.datetime(2023, 1, 31, tzinfo=timezone.utc)
 
-    with mock.patch("swvo.io.RBMDataSet.utils.get_file_path_any_format") as mock_get_path:
-        with mock.patch("swvo.io.RBMDataSet.utils.load_file_any_format") as mock_load_file:
-            mock_get_path.return_value = Path("/mock/path/file.pickle")
-            mock_load_file.return_value = {
-                "time": np.array([dt.datetime(2023, 1, 15).timestamp()]),
-                "datetime": np.array([dt.datetime(2023, 1, 15, tzinfo=timezone.utc)]),
-                "energy_channels": np.array([100, 200, 300]),
-                "alpha_local": np.array([0.1, 0.2, 0.3]),
-                "Flux": np.array([[1.0, 2.0, 3.0]]),
-            }
+    mocker.patch(
+        "swvo.io.RBMDataSet.RBMNcDataSet._read_all_datasets_netcdf",
+        return_value={
+            "time": np.array([dt.datetime(2023, 1, 15).timestamp()]),
+            "datetime": np.array([dt.datetime(2023, 1, 15, tzinfo=timezone.utc)]),
+            "flux/energy": np.array([100, 200, 300]),
+            "flux/alpha_local": np.array([0.1, 0.2, 0.3]),
+            "flux/FEDU": np.array([[1.0, 2.0, 3.0]]),
+        },
+    )
 
-            dataset = RBMNcDataSet(
-                start_time=start_time,
-                end_time=end_time,
-                folder_path=Path("/mock/path"),
-                satellite=SatelliteEnum.RBSPA,
-                instrument=InstrumentEnum.MAGEIS,
-                mfm=MfmEnum.T89,
-                verbose=False,
-            )
+    dataset = RBMNcDataSet(
+        start_time=start_time,
+        end_time=end_time,
+        folder_path=Path("/mock/path"),
+        satellite=SatelliteEnum.RBSPA,
+        instrument=InstrumentEnum.MAGEIS,
+        mfm=MfmEnum.T89,
+        verbose=False,
+    )
 
-            return dataset
+    return dataset
 
 
 def test_init_datetime_timezone(mock_module_string):
@@ -216,7 +216,7 @@ def test_file_name_stem_generation(mock_dataset: RBMNcDataSet):
 
 def test_file_path_stem_dataserver(mock_dataset: RBMNcDataSet):
     """Test correct file path stem for DataServer folder type."""
-    expected_path = Path("/mock/path/RBSP/rbspa/Processed_Mat_Files")
+    expected_path = Path("/mock/path/RBSP/rbspa/")
     assert mock_dataset._create_file_path_stem() == expected_path
 
 

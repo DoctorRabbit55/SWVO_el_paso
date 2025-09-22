@@ -175,11 +175,11 @@ InstrumentLike: TypeAlias = InstrumentLiteral | InstrumentEnum
 
 
 class MfmEnum(StrEnum):
-    T89 = "n4_4_T89"
-    T04s = "n4_4_T04s"
-    T96 = "n4_4_T96"
-    TS04 = "n4_4_T04s"
-    OP77 = "n4_4_OP77"
+    T89 = "T89"
+    T04s = "T04s"
+    T96 = "T96"
+    TS04 = "T04s"
+    OP77 = "OP77"
 
 
 MfmEnumLiteral = Literal["T89", "T04s", "TS04", "T96", "OP77"]

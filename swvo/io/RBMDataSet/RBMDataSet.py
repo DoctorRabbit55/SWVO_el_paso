@@ -263,7 +263,7 @@ class RBMDataSet:
                 file_name_no_format = self._file_name_stem + date_str + "_" + var.mat_file_prefix
 
                 if var.mat_has_B:
-                    file_name_no_format += "_" + self._mfm.value
+                    file_name_no_format += "_n4_4_" + self._mfm.value
 
                 file_name_no_format += "_ver4"
             else:
