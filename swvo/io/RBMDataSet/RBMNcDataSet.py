@@ -195,10 +195,11 @@ class RBMNcDataSet(RBMDataSet):
 
             rbm_var_name = RBMNcDataSet._get_rbm_name(var_name, self._mfm.value)
 
-            setattr(self, rbm_var_name, loaded_var_arrs[var_name])
+            if rbm_var_name is not None:
+                setattr(self, rbm_var_name, loaded_var_arrs[var_name])
 
     @classmethod
-    def _get_rbm_name(cls, var_name: str, mag_field: MfmEnumLiteral) -> VariableLiteral:
+    def _get_rbm_name(cls, var_name: str, mag_field: MfmEnumLiteral) -> VariableLiteral | None:
         match var_name:
             case "time":
                 return "time"
@@ -233,4 +234,4 @@ class RBMNcDataSet(RBMDataSet):
             case "density/density_local":
                 return "density"
             case _:
-                raise ValueError(f"Invalid variable name: {var_name}")
+                return None

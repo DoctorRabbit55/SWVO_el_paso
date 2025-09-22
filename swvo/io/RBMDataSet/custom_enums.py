@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum, StrEnum
+from enum import Enum
 from typing import Literal, TypeAlias
 
 ####
@@ -174,7 +174,7 @@ InstrumentLiteral = Literal[
 InstrumentLike: TypeAlias = InstrumentLiteral | InstrumentEnum
 
 
-class MfmEnum(StrEnum):
+class MfmEnum(Enum):
     T89 = "T89"
     T04s = "T04s"
     T96 = "T96"

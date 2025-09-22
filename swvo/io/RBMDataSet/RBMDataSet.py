@@ -112,11 +112,12 @@ class RBMDataSet:
         if isinstance(satellite, str):
             satellite = SatelliteEnum[satellite.upper()]
         self._satellite = satellite
+
         if isinstance(instrument, str):
             instrument = InstrumentEnum[instrument.upper()]
         self._instrument = instrument
 
-        if mfm.upper() in MfmEnum.__members__:
+        if isinstance(mfm, str):
             mfm = MfmEnum[mfm.upper()]
         self._mfm = mfm
 
