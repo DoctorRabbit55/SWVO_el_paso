@@ -51,8 +51,8 @@ def read_kp_from_multiple_models(  # noqa: PLR0913
         The end time of the data request.
     model_order : Sequence or None, optional
         The order in which data will be read from the models. Defaults to [OMNI, Niemegk, Ensemble, SWPC].
-    reduce_ensemble : {"mean", None}, optional
-        The method to reduce ensembles to a single time series. Defaults to None.
+    reduce_ensemble : {"mean", "median"} or None, optional
+        The method to reduce ensembles to a single time series. Can be "mean", "median", or None. Defaults to None.
     historical_data_cutoff_time : datetime or None, optional
         Represents "now". After this time, no data will be taken from historical models
         (OMNI, Niemegk). Defaults to None.
