@@ -1,5 +1,5 @@
-import typing
 import datetime as dt
+import typing
 from pathlib import Path
 from typing import Any
 
@@ -7,16 +7,16 @@ import netCDF4
 import numpy as np
 from dateutil.relativedelta import relativedelta
 from numpy.typing import NDArray
+
 from swvo.io.RBMDataSet import (
     FolderTypeEnum,
     InstrumentLike,
-    MfmLike,
     RBMDataSet,
     SatelliteLike,
     Variable,
     VariableEnum,
 )
-from swvo.io.RBMDataSet.utils import join_var, matlab2python
+from swvo.io.RBMDataSet.utils import join_var
 
 
 def _read_all_datasets_netcdf(file_path: str | Path) -> dict[str, Any]:
@@ -33,9 +33,9 @@ def _read_all_datasets_netcdf(file_path: str | Path) -> dict[str, Any]:
         Dict[str, Any]: A dictionary where keys are the full variable paths
                         and values are the corresponding NumPy arrays.
     """
-    datasets:dict[str,Any] = {}
+    datasets: dict[str, Any] = {}
 
-    def _read_all_recursively(group:netCDF4.Group|netCDF4.Dataset, path:str=""):
+    def _read_all_recursively(group: netCDF4.Group | netCDF4.Dataset, path: str = ""):
         for var_name, var_obj in group.variables.items():
             full_path = f"{path}/{var_name}" if path else var_name
             datasets[full_path] = var_obj[:]
@@ -48,6 +48,7 @@ def _read_all_datasets_netcdf(file_path: str | Path) -> dict[str, Any]:
         _read_all_recursively(nc_file)
 
     return datasets
+
 
 class RBMNcDataSet(RBMDataSet):
     """Class for handling RBM NetCDF data files."""
@@ -110,7 +111,7 @@ class RBMNcDataSet(RBMDataSet):
         msg = "Encountered invalid FolderTypeEnum!"
         raise ValueError(msg)
 
-    def _load_variable(self, var: Variable|VariableEnum) -> None:
+    def _load_variable(self, var: Variable | VariableEnum) -> None:
         loaded_var_arrs: dict[str, NDArray[np.number]] = {}
         var_names_storred: list[str] = []
 
@@ -129,7 +130,9 @@ class RBMNcDataSet(RBMDataSet):
             # also store python datetimes for binning
             datetimes = typing.cast(
                 NDArray[np.object_],
-                np.asarray([dt.datetime.fromtimestamp(t.astype(np.int64), tz=dt.timezone.utc) for t in datasets["time"]]),
+                np.asarray(
+                    [dt.datetime.fromtimestamp(t.astype(np.int64), tz=dt.timezone.utc) for t in datasets["time"]]
+                ),
             )  # type: ignore
             datasets["datetime"] = datetimes
 
@@ -137,7 +140,6 @@ class RBMNcDataSet(RBMDataSet):
             correct_time_idx = (datetimes >= self._start_time) & (datetimes <= self._end_time)
 
             for key, var_arr in datasets.items():
-
                 if ((not isinstance(var_arr, np.ndarray)) or (not np.issubdtype(var_arr.dtype, np.number))) and (
                     key != "datetime"
                 ):
@@ -149,7 +151,9 @@ class RBMNcDataSet(RBMDataSet):
                 if var_arr.shape[0] == correct_time_idx.shape[0]:
                     var_arr_trimmed = var_arr[correct_time_idx.reshape(-1), ...]
 
-                    joined_value = join_var(loaded_var_arrs[key], var_arr_trimmed) if key in loaded_var_arrs else var_arr_trimmed
+                    joined_value = (
+                        join_var(loaded_var_arrs[key], var_arr_trimmed) if key in loaded_var_arrs else var_arr_trimmed
+                    )
                 else:
                     joined_value = var_arr
 

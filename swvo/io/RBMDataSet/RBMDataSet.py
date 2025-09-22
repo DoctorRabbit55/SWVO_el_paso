@@ -326,8 +326,7 @@ class RBMDataSet:
 
             setattr(self, var_name, loaded_var_arrs[var_name])
 
-    def __eq__(self, other:RBMDataSet) -> bool:
-
+    def __eq__(self, other: RBMDataSet) -> bool:
         if self._satellite != other._satellite:
             return False
         if self._instrument != other._instrument:
@@ -351,7 +350,7 @@ class RBMDataSet:
                 if not np.allclose(self_var, other_var, equal_nan=True):
                     return False
             elif self_var != other_var:
-                    return False
+                return False
 
         return True
 

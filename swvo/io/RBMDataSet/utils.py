@@ -46,8 +46,10 @@ def get_file_path_any_format(folder_path: Path, file_stem: str, preferred_ext: s
 
                 return folder_path / (file_stem + "." + preferred_ext)
 
-            msg = (f"Several files found for {folder_path / (file_stem + '.*')} with extensions: {extensions_found}. "
-                    f"However, the preferred extension ({preferred_ext}) is not available!")
+            msg = (
+                f"Several files found for {folder_path / (file_stem + '.*')} with extensions: {extensions_found}. "
+                f"However, the preferred extension ({preferred_ext}) is not available!"
+            )
             raise ValueError(msg)
 
         if len(all_files) == 1:
@@ -59,8 +61,6 @@ def get_file_path_any_format(folder_path: Path, file_stem: str, preferred_ext: s
         )
 
     return None
-
-
 
 
 def load_file_any_format(file_path: Path) -> dict[str, Any]:
