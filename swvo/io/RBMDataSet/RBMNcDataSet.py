@@ -233,4 +233,4 @@ class RBMNcDataSet(RBMDataSet):
             case "density/density_local":
                 return "density"
             case _:
-                return "_invalid_name"
+                raise ValueError(f"Invalid variable name: {var_name}")
