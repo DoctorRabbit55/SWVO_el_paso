@@ -122,7 +122,7 @@ class RBMNcDataSet(RBMDataSet):
 
     def _load_variable(self, var: Variable | VariableEnum) -> None:
         loaded_var_arrs: dict[str, NDArray[np.number]] = {}
-        var_names_storred: list[str] = []
+        var_names_stored: list[str] = []
 
         # computed values
         if isinstance(var, VariableEnum) and var == VariableEnum.INV_V:
@@ -182,14 +182,14 @@ class RBMNcDataSet(RBMDataSet):
 
                 loaded_var_arrs[key] = joined_value
 
-                if key not in var_names_storred:
-                    var_names_storred.append(key)
+                if key not in var_names_stored:
+                    var_names_stored.append(key)
 
         # not a single file was found
-        if var.var_name not in var_names_storred:
+        if var.var_name not in var_names_stored:
             setattr(self, var.var_name, np.asarray([]))
 
-        for var_name in var_names_storred:
+        for var_name in var_names_stored:
             if var_name == "datetime":
                 loaded_var_arrs[var_name] = list(loaded_var_arrs[var_name])  # type: ignore
 
