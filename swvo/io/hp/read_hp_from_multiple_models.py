@@ -51,8 +51,8 @@ def read_hp_from_multiple_models(  # noqa: PLR0913
         End time of the data request.
     model_order : Sequence, optional
         Order in which data will be read from the models, defaults to [OMNI, Niemegk, Ensemble, SWPC].
-    reduce_ensemble : {"mean"}, optional
-        The method to reduce ensembles to a single time series, defaults to None.
+    reduce_ensemble : {"mean", "median"} or None, optional
+        The method to reduce ensembles to a single time series ("mean" or "median"), defaults to None.
     historical_data_cutoff_time : datetime, optional
         Time, which represents "now". After this time, no data will be taken from historical models (OMNI, Niemegk), defaults to None.
     download : bool, optional
